@@ -14,6 +14,7 @@ import {
   ThumbsUp,
   UserPlus,
   AlertCircle,
+  LucideChartNoAxesColumnDecreasing,
 } from "lucide-react";
 import React, { useState } from "react";
 
@@ -46,7 +47,6 @@ export const Sidebar = ({
     replyCount: 156,
     level: "Uzman",
     role: "Moderatör",
-    device: "Casper Excalibur G770",
   };
 
   // Örnek bildirimler
@@ -55,7 +55,7 @@ export const Sidebar = ({
       id: 1,
       type: "reply",
       title: "Yeni Cevap",
-      message: "Ahmet Kaya maruzatınıza cevap verdi",
+      message: '"Ahmet Kaya" maruzatınıza cevap verdi',
       time: "5 dk önce",
       isRead: false,
       icon: MessageCircle,
@@ -64,7 +64,7 @@ export const Sidebar = ({
       id: 2,
       type: "like",
       title: "Beğeni",
-      message: "Ayşe Demir maruzatınızı beğendi",
+      message: '"Ayşe Demir" maruzata verdiğiniz cevabı beğendi',
       time: "1 saat önce",
       isRead: false,
       icon: ThumbsUp,
@@ -73,7 +73,7 @@ export const Sidebar = ({
       id: 3,
       type: "follow",
       title: "Yeni Takipçi",
-      message: "Fatma Öz sizi takip etmeye başladı",
+      message: '"Fatma Öz" sizi takip etmeye başladı',
       time: "2 saat önce",
       isRead: true,
       icon: UserPlus,
@@ -86,6 +86,13 @@ export const Sidebar = ({
       time: "1 gün önce",
       isRead: true,
       icon: AlertCircle,
+    },
+    {
+      id: 5,
+      type: "upvote",
+      title: "Olumlu Oy",
+      message:
+        '"React Native Nedir?" maruzatınıza verilen olumlu oy sayısı 10 oldu',
     },
   ];
 
@@ -112,6 +119,65 @@ export const Sidebar = ({
       className={`bg-white sticky top-0 shadow-lg flex flex-col h-screen z-50`}
     >
       {/* Kullanıcı Bilgileri */}
+      {/* Bildirim Container'ı */}
+      {showNotifications && (
+        <div className="absolute top-0  left-0  w-80 bg-white rounded-lg shadow-xl border border-gray-200 mt-2  max-h-[26rem] z-50">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <h3 className="font-bold text-gray-900">Bildirimler</h3>
+            <button
+              onClick={() => setShowNotifications(false)}
+              className="text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <div className="max-h-80 overflow-y-auto">
+            {notifications.length === 0 ? (
+              <div className="p-4 text-center text-gray-500">
+                Henüz bildirim yok
+              </div>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className={`z-50 p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${
+                    !notification.isRead ? "bg-blue-50" : ""
+                  }`}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 mt-1">
+                      {getNotificationIcon(notification.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium text-gray-900 text-sm">
+                          {notification.title}
+                        </p>
+                        {!notification.isRead && (
+                          <Dot className="text-blue-600 w-4 h-4" />
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {notification.message}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-2">
+                        {notification.time}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className="p-3 border-t border-gray-200 bg-gray-50">
+            <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
+              Tüm bildirimleri gör
+            </button>
+          </div>
+        </div>
+      )}
       <div className="p-4 lg:p-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3 lg:space-x-4">
@@ -145,68 +211,6 @@ export const Sidebar = ({
                 </span>
               )}
             </button>
-
-            {/* Bildirim Container'ı */}
-            {showNotifications && (
-              <div className="relative z-50">
-                <div className="absolute top-full right-0 left-0  w-80 bg-white rounded-lg shadow-xl border border-gray-200 mt-2  max-h-[26rem] z-50">
-                  <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                    <h3 className="font-bold text-gray-900">Bildirimler</h3>
-                    <button
-                      onClick={() => setShowNotifications(false)}
-                      className="text-gray-500 hover:text-gray-700 transition-colors"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
-
-                  <div className="max-h-80 overflow-y-auto">
-                    {notifications.length === 0 ? (
-                      <div className="p-4 text-center text-gray-500">
-                        Henüz bildirim yok
-                      </div>
-                    ) : (
-                      notifications.map((notification) => (
-                        <div
-                          key={notification.id}
-                          className={`z-50 p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${
-                            !notification.isRead ? "bg-blue-50" : ""
-                          }`}
-                        >
-                          <div className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 mt-1">
-                              {getNotificationIcon(notification.type)}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between">
-                                <p className="font-medium text-gray-900 text-sm">
-                                  {notification.title}
-                                </p>
-                                {!notification.isRead && (
-                                  <Dot className="text-blue-600 w-4 h-4" />
-                                )}
-                              </div>
-                              <p className="text-sm text-gray-600 mt-1">
-                                {notification.message}
-                              </p>
-                              <p className="text-xs text-gray-500 mt-2">
-                                {notification.time}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-
-                  <div className="p-3 border-t border-gray-200 bg-gray-50">
-                    <button className="w-full text-center text-sm text-blue-600 hover:text-blue-800 font-medium">
-                      Tüm bildirimleri gör
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -227,12 +231,13 @@ export const Sidebar = ({
 
         <div className="flex items-center justify-between text-xs lg:text-sm">
           <div className="flex items-center space-x-1">
-            <Monitor size={14} className="text-gray-600 hidden sm:block" />
-            <Smartphone size={14} className="text-gray-600 sm:hidden" />
+            <LucideChartNoAxesColumnDecreasing
+              size={14}
+              className="text-gray-600 hidden sm:block"
+            />
             <span className="text-gray-600 hidden sm:inline">
-              {userStats.device}
+              {userStats.role}
             </span>
-            <span className="text-gray-600 sm:hidden">Mobil</span>
           </div>
           <div className="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">
             {userStats.level}

@@ -10,6 +10,7 @@ import { UserReplies } from "../components/UserReplies";
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("maruzatlar");
   const user = {
+    id: 1,
     name: "Mehmet Yılmaz",
     username: "mehmet_dev",
     role: "Moderatör",
@@ -21,6 +22,8 @@ const ProfilePage = () => {
     bio: "Teknolojiye tutkulu, öğrenmeyi seven bir yazılım geliştirici.",
     avatar: "/avatar.jpg",
     cover: "/avatar.jpg",
+    followers: 1200,
+    following: 300,
     socials: {
       twitter: "https://twitter.com/mehmet_dev",
       instagram: "https://instagram.com/mehmet_dev",
@@ -106,6 +109,28 @@ const ProfilePage = () => {
       createdAt: "5 gün önce",
     },
   ];
+  const followers = [
+    {
+      id: 2,
+      name: "Ahmet Yılmaz",
+      username: "ahmetyilmaz",
+      bio: "Full-stack developer",
+      avatar: null,
+      isFollowing: true,
+    },
+    // ... diğer takipçiler
+  ];
+
+  const following = [
+    {
+      id: 3,
+      name: "Ayşe Demir",
+      username: "aysedemir",
+      bio: "UI/UX Designer",
+      avatar: null,
+      isFollowing: false,
+    },
+  ];
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Kapak ve Profil */}
@@ -114,7 +139,12 @@ const ProfilePage = () => {
       {/* İçerik */}
       <div className="mt-20 px-4 sm:px-8 py-4 space-y-6">
         {/* Temel Bilgiler */}
-        <ProfileInfo user={user} />
+        <ProfileInfo
+          user={user}
+          followers={followers}
+          following={following}
+          currentUserId={user.id}
+        />
         {/* İstatistikler */}
         <ProfileStatistics user={user} />
 
