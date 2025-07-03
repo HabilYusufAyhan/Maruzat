@@ -20,6 +20,15 @@ export const ProfileInfo = ({
     isOpen: false,
     type: null,
   });
+  const [isFollowing, setisFollowing] = useState(user.isFollowing || false);
+  // Follow User
+  const handleFollow = () => {
+    if (onFollowToggle) {
+      onFollowToggle(user.id);
+
+      setisFollowing(!isFollowing);
+    }
+  };
 
   // ... diğer takip edilenler
   const openModal = (type) => {
@@ -80,7 +89,21 @@ export const ProfileInfo = ({
           </div>
         </div>
       </div>
-
+      <div className="mt-6 flex justify-end">
+        {currentUserId !== user.id && (
+          <button
+            onClick={() => handleFollow()}
+            className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              isFollowing
+                ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+            }`}
+          >
+            <UserPlus size={16} className="inline mr-1" />
+            {isFollowing ? "Takip İsteği Gönderildi." : "Takip Et"}
+          </button>
+        )}
+      </div>
       {/* Modal */}
       <FollowersModal
         isOpen={modalState.isOpen}

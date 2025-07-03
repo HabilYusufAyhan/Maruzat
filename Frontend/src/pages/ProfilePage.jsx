@@ -24,6 +24,7 @@ const ProfilePage = () => {
     cover: "/avatar.jpg",
     followers: 1200,
     following: 300,
+    isFollowing: false,
     socials: {
       twitter: "https://twitter.com/mehmet_dev",
       instagram: "https://instagram.com/mehmet_dev",
@@ -131,6 +132,11 @@ const ProfilePage = () => {
       isFollowing: false,
     },
   ];
+  const onFollowToggle = (userId) => {
+    // Takip et/takibi bırak işlemi
+    console.log(`User ${userId} takip et/takibi bırak`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Kapak ve Profil */}
@@ -143,7 +149,8 @@ const ProfilePage = () => {
           user={user}
           followers={followers}
           following={following}
-          currentUserId={user.id}
+          currentUserId={15}
+          onFollowToggle={onFollowToggle}
         />
         {/* İstatistikler */}
         <ProfileStatistics user={user} />
