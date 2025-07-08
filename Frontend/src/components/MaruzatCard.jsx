@@ -65,8 +65,8 @@ export const MaruzatCard = ({ maruzat, replies }) => {
 
       {/* Görsel */}
       {maruzat.hasImage && (
-        <div className="w-full h-48 lg:h-64 bg-gray-200 rounded-lg mb-6 flex items-center justify-center">
-          <span className="text-gray-500">Kod Örneği Görseli</span>
+        <div className="w-full min-h-48 lg:min-h-64 bg-gray-200 rounded-lg mb-6 flex items-center justify-center overflow-hidden">
+          <img className="" src="/avatar.jpg" alt="" />
         </div>
       )}
 

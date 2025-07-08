@@ -4,6 +4,22 @@ import { ReplyForm } from "../components/ReplyForm";
 import { renderContentWithMentions } from "../config/RenderContentWithMentions.jsx";
 
 export const ReplyItem = ({ reply, onReplySubmit }) => {
+  const defaultProfileColors = [
+    "#F44336", // Kırmızı
+    "#E91E63", // Pembe
+    "#9C27B0", // Mor
+    "#673AB7", // Menekşe
+    "#3F51B5", // İndigo
+    "#2196F3", // Mavi
+    "#03A9F4", // Açık Mavi
+    "#009688", // Camgöbeği
+    "#4CAF50", // Yeşil
+    "#FF9800", // Turuncu
+  ];
+  const color =
+    defaultProfileColors[
+      Math.floor(Math.random() * defaultProfileColors.length)
+    ];
   const [likedReplies, setLikedReplies] = useState({}); // id bazlı like durumu
   const [replyingToId, setReplyingToId] = useState(null); // hangi cevapta form açık
 
@@ -23,9 +39,22 @@ export const ReplyItem = ({ reply, onReplySubmit }) => {
       {/* Ana mesaj başlığı */}
       <div>
         <div className="flex justify-between mb-2">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-              {reply.user.charAt(0).toUpperCase()}
+          <a href="#" className="flex items-center space-x-3">
+            <div
+              className={
+                "w-8 h-8  text-white rounded-full flex items-center justify-center text-sm font-bold"
+              }
+              style={{ backgroundColor: color }}
+            >
+              {reply.user.avatar ? (
+                <img
+                  src={reply.user.avatar}
+                  alt={reply.user}
+                  className="w-full h-full rounded-full"
+                />
+              ) : (
+                reply.user.charAt(0).toUpperCase()
+              )}
             </div>
             <div>
               <div className="flex items-center space-x-2">
@@ -39,7 +68,7 @@ export const ReplyItem = ({ reply, onReplySubmit }) => {
                 <span className="ml-1">{reply.date}</span>
               </div>
             </div>
-          </div>
+          </a>
           <MoreHorizontal size={16} className="text-gray-400" />
         </div>
 
